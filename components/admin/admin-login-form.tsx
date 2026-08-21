@@ -42,14 +42,14 @@ export function AdminLoginForm({ showInitialError }: { showInitialError: boolean
   return (
     <>
       {error && (
-        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-200">
           Invalid credentials. Please check email/password in Supabase Auth.
         </p>
       )}
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
         <div className="space-y-2">
-          <label className="text-xs font-semibold tracking-[0.12em] text-zinc-300 uppercase" htmlFor="admin-email">
+          <label className="text-xs font-semibold tracking-[0.12em] text-muted uppercase" htmlFor="admin-email">
             Email
           </label>
           <input
@@ -59,12 +59,12 @@ export function AdminLoginForm({ showInitialError }: { showInitialError: boolean
             required
             autoComplete="email"
             placeholder="admin@club.com"
-            className="w-full rounded-xl border border-[#323232] bg-[#141414] px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-[#f5b642]/70 focus:ring-2 focus:ring-[#f5b642]/25"
+            className="w-full rounded-xl border border-[color:var(--border)] bg-card-soft px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand/70 focus:ring-2 focus:ring-brand/25"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-semibold tracking-[0.12em] text-zinc-300 uppercase" htmlFor="admin-password">
+          <label className="text-xs font-semibold tracking-[0.12em] text-muted uppercase" htmlFor="admin-password">
             Password
           </label>
           <input
@@ -74,14 +74,14 @@ export function AdminLoginForm({ showInitialError }: { showInitialError: boolean
             required
             autoComplete="current-password"
             placeholder="Enter your password"
-            className="w-full rounded-xl border border-[#323232] bg-[#141414] px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-[#f5b642]/70 focus:ring-2 focus:ring-[#f5b642]/25"
+            className="w-full rounded-xl border border-[color:var(--border)] bg-card-soft px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand/70 focus:ring-2 focus:ring-brand/25"
           />
         </div>
 
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center rounded-xl bg-[#f5b642] px-5 py-3 text-sm font-semibold text-[#17120a] transition hover:bg-[#f8c35b] focus:outline-none focus:ring-2 focus:ring-[#f5b642]/40 focus:ring-offset-2 focus:ring-offset-[#0f0f0f] disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:bg-brand-strong focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-60"
         >
           {pending ? "Signing in…" : "Login"}
         </button>
@@ -89,7 +89,7 @@ export function AdminLoginForm({ showInitialError }: { showInitialError: boolean
 
       <Link
         href="/"
-        className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-[#3a3528] bg-[#15120e] px-5 py-3 text-sm font-semibold text-zinc-200 transition hover:border-[#f5b642]/40 hover:text-white"
+        className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-brand/30 bg-card-soft px-5 py-3 text-sm font-semibold text-foreground transition hover:border-brand/40 hover:text-brand"
       >
         Get Back to Home
       </Link>

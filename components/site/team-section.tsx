@@ -95,30 +95,28 @@ export function TeamSection({ teams }: { teams: TeamWithMembers[] }) {
   return (
     <section
       id="team"
-      className="relative border-b border-[#1e1e1e] py-20 overflow-hidden"
+      className="relative border-b border-[color:var(--border)] bg-background py-20 overflow-hidden"
     >
-      {/* Background decorations */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(245,182,66,0.06),transparent)]" />
-      <div className="pointer-events-none absolute left-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#f5b642]/[0.04] blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-brand/[0.04] blur-3xl" />
       <div className="pointer-events-none absolute right-0 bottom-0 h-72 w-72 rounded-full bg-[#a78bfa]/[0.04] blur-3xl" />
 
       <div className="container-wrap relative">
-        {/* Heading */}
         <div className="mb-12 text-center">
-          <p className="text-xs font-semibold tracking-[0.22em] text-[#f5b642]/80 uppercase">
+          <p className="text-xs font-semibold tracking-[0.22em] text-brand/80 uppercase">
             Our People
           </p>
-          <h2 className="mt-3 text-4xl font-bold text-white sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-bold text-foreground sm:text-5xl">
             Meet the{" "}
             <span className="bg-gradient-to-r from-[#f5b642] to-[#ffd06a] bg-clip-text text-transparent">
               Teams
             </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-[#888]">
+          <p className="mx-auto mt-4 max-w-xl text-base text-muted">
             The Gen AI Club is powered by passionate sub-teams — each driving a
             unique pillar of our community.
           </p>
-          <div className="mx-auto mt-5 h-px w-24 bg-gradient-to-r from-transparent via-[#f5b642]/50 to-transparent" />
+          <div className="mx-auto mt-5 h-px w-24 bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
         </div>
 
         {/* Cards grid */}
@@ -169,7 +167,7 @@ function TeamCard({
   return (
     <Link
       href={href}
-      className="team-card group relative flex flex-col rounded-2xl border border-[#222] bg-[#0d0d0d] p-5 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--card-accent)] hover:shadow-[0_0_28px_var(--card-glow)]"
+      className="team-card group relative flex flex-col rounded-2xl border border-[color:var(--border)] bg-card p-5 shadow-[0_14px_28px_var(--shadow)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--card-accent)] hover:shadow-[0_0_28px_var(--card-glow)]"
       style={
         {
           "--card-accent": accent,
@@ -199,12 +197,12 @@ function TeamCard({
       </div>
 
       {/* Team name */}
-      <h3 className="text-base font-semibold leading-snug text-white transition-colors duration-200 group-hover:text-[var(--card-accent)]">
+      <h3 className="text-base font-semibold leading-snug text-foreground transition-colors duration-200 group-hover:text-[var(--card-accent)]">
         {name}
       </h3>
 
       {/* Description */}
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-[#666] line-clamp-2">
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted line-clamp-2">
         {description ?? "A dedicated team working towards club excellence."}
       </p>
 
