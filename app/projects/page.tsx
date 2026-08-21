@@ -11,10 +11,10 @@ export default async function ProjectsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#080808] py-14">
+      <main className="min-h-screen bg-background py-14 text-foreground">
         <section className="container-wrap">
-          <h1 className="text-4xl font-bold text-[#f5b642] sm:text-5xl">Projects</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+          <h1 className="text-4xl font-bold text-brand sm:text-5xl">Projects</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
             Explore open-source and production-ready builds from our club. New projects
             added from the admin dashboard appear here automatically.
           </p>

@@ -17,7 +17,7 @@ export function ScrollTickerSection() {
   return (
     <div
       aria-hidden
-      className="select-none overflow-hidden border-y border-[#1a1a1a] bg-black py-3"
+      className="select-none overflow-hidden border-y border-[color:var(--border)] bg-card-soft py-3"
     >
       {LINES.map((line, index) => (
         <Ticker

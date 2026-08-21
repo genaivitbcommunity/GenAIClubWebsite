@@ -12,7 +12,7 @@ export const revalidate = 60;
 export default async function Home() {
   const teams = await getTeamsWithMembers();
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main>
         <Hero />

@@ -16,8 +16,7 @@ import type { Event, Member, Project, Team } from "@/lib/types";
 import { motion } from "framer-motion";
 import { Calendar, FolderKanban, LogOut, Pencil, Trash2, Users, Network, CheckCircle } from "lucide-react";
 import { useMemo, useState } from "react";
-
-const gold = "#f5b642";
+import { ThemeToggle } from "@/components/site/theme-toggle";
 
 type TabId = "teams" | "members" | "events" | "projects";
 
@@ -37,15 +36,15 @@ function toDatetimeLocalValue(iso: string): string {
 
 function fieldClass(extra = "") {
   return [
-    "w-full rounded-xl border border-[#323232] bg-[#141414] px-4 py-3 text-sm text-white",
-    "outline-none transition placeholder:text-zinc-500",
-    "focus:border-[#f5b642]/70 focus:ring-2 focus:ring-[#f5b642]/25",
+    "w-full rounded-xl border border-[color:var(--border)] bg-card-soft px-4 py-3 text-sm text-foreground",
+    "outline-none transition placeholder:text-muted",
+    "focus:border-brand/70 focus:ring-2 focus:ring-brand/25",
     extra,
   ].join(" ");
 }
 
 function labelClass() {
-  return "text-xs font-semibold tracking-[0.12em] text-zinc-400 uppercase";
+  return "text-xs font-semibold tracking-[0.12em] text-muted uppercase";
 }
 
 export function AdminDashboardClient(props: {
@@ -83,34 +82,37 @@ export function AdminDashboardClient(props: {
   }, [tabIndex]);
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
-      <div className="border-b border-[#242424] bg-[#0c0c0c]">
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="border-b border-[color:var(--border)] bg-card-soft/80">
         <div className="container-wrap flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-[#f5b642]/90 uppercase">
+            <p className="text-xs font-semibold tracking-[0.2em] text-brand/90 uppercase">
               Gen AI Club
             </p>
-            <h1 className="mt-2 text-3xl font-semibold text-white sm:text-4xl">Admin Dashboard</h1>
-            <p className="mt-2 max-w-xl text-sm text-zinc-400">
+            <h1 className="mt-2 text-3xl font-semibold text-foreground sm:text-4xl">Admin Dashboard</h1>
+            <p className="mt-2 max-w-xl text-sm text-muted">
               Manage members, events, and projects. Changes apply to the live site.
             </p>
           </div>
-          <form action={logoutAdmin}>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#3a3528] bg-[#14120e] px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-[#f5b642]/40 hover:text-white"
-            >
-              <LogOut className="h-4 w-4" aria-hidden />
-              Logout
-            </button>
-          </form>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <form action={logoutAdmin}>
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 rounded-xl border border-brand/30 bg-card px-4 py-2.5 text-sm font-medium text-foreground transition hover:border-brand/40 hover:text-brand"
+              >
+                <LogOut className="h-4 w-4" aria-hidden />
+                Logout
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 
       <div className="container-wrap py-8">
-        <div className="relative mb-10 rounded-2xl border border-[#2a2a2a] bg-[#121212] p-1.5">
+        <div className="relative mb-10 rounded-2xl border border-[color:var(--border)] bg-card p-1.5">
           <motion.div
-            className="pointer-events-none absolute top-1.5 bottom-1.5 rounded-xl border border-[#a97820]/45 bg-[#f5b642]/20 shadow-[0_0_24px_rgba(245,182,66,0.12)]"
+            className="pointer-events-none absolute top-1.5 bottom-1.5 rounded-xl border border-brand/45 bg-brand/10 shadow-[0_0_24px_rgba(245,182,66,0.12)]"
             initial={false}
             animate={{
               left: sliderLeft,
@@ -130,10 +132,10 @@ export function AdminDashboardClient(props: {
                   }}
                   className={[
                     "flex items-center justify-center gap-2 rounded-xl px-3 py-3.5 text-sm font-semibold transition-colors",
-                    active ? "text-[#f5e6c8]" : "text-zinc-500 hover:text-zinc-300",
+                    active ? "text-foreground" : "text-muted hover:text-foreground",
                   ].join(" ")}
                 >
-                  <Icon className="h-4 w-4 shrink-0" style={{ color: active ? gold : undefined }} aria-hidden />
+                  <Icon className="h-4 w-4 shrink-0" style={{ color: active ? "var(--brand)" : undefined }} aria-hidden />
                   <span className="hidden sm:inline">{label}</span>
                 </button>
               );
@@ -143,13 +145,13 @@ export function AdminDashboardClient(props: {
 
         {/* Teams */}
         <div className={tab === "teams" ? "block space-y-8" : "hidden"}>
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.35)] sm:p-8">
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 shadow-[0_24px_60px_var(--shadow)] sm:p-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-white sm:text-2xl">
+                <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                   {editingTeam ? "Edit team" : "Add team"}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-400">
+                <p className="mt-1 text-sm text-muted">
                   {editingTeam ? "Update details below, then save." : "Create a new team."}
                 </p>
               </div>
@@ -157,7 +159,7 @@ export function AdminDashboardClient(props: {
                 <button
                   type="button"
                   onClick={() => setEditingTeam(null)}
-                  className="text-sm font-medium text-[#f5b642] hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   Cancel edit
                 </button>
@@ -217,7 +219,7 @@ export function AdminDashboardClient(props: {
                   name="image_file"
                   type="file"
                   accept="image/*"
-                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-[#1f1f1f] file:px-3 file:py-1.5 file:text-xs file:text-zinc-300")}
+                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-card-soft file:px-3 file:py-1.5 file:text-xs file:text-muted")}
                 />
               </div>
               <div className="space-y-2 sm:col-span-2">
@@ -235,7 +237,7 @@ export function AdminDashboardClient(props: {
               <div className="flex sm:col-span-2 lg:col-span-3">
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-[#f5b642] px-5 py-3 text-sm font-semibold text-[#17120a] transition hover:bg-[#f8c35b] focus:outline-none focus:ring-2 focus:ring-[#f5b642]/40 focus:ring-offset-2 focus:ring-offset-[#0f0f0f] sm:w-auto sm:min-w-[200px]"
+                  className="w-full rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:bg-brand-strong focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:min-w-[200px]"
                 >
                   {editingTeam ? "Update team" : "Save team"}
                 </button>
@@ -243,17 +245,17 @@ export function AdminDashboardClient(props: {
             </form>
           </section>
 
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
-            <h3 className="text-lg font-semibold text-white">Existing teams</h3>
-            <p className="mt-1 text-sm text-zinc-400">{teams.length} total</p>
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
+            <h3 className="text-lg font-semibold text-foreground">Existing teams</h3>
+            <p className="mt-1 text-sm text-muted">{teams.length} total</p>
             <ul className="mt-6 space-y-4">
               {teams.map((t) => (
                 <li
                   key={t.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-[#2f2f2f] bg-[#141414] p-4 sm:flex-row sm:items-stretch sm:justify-between"
+                  className="flex flex-col gap-4 rounded-2xl border border-[color:var(--border)] bg-card-soft p-4 sm:flex-row sm:items-stretch sm:justify-between"
                 >
                   <div className="flex min-w-0 flex-1 gap-4">
-                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#3d3520] bg-[#1a1814]">
+                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-brand/20 bg-card">
                       {t.image_url ? (
                         <img
                           src={t.image_url}
@@ -261,16 +263,16 @@ export function AdminDashboardClient(props: {
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs text-zinc-600">
+                        <div className="flex h-full w-full items-center justify-center text-xs text-muted">
                           No img
                         </div>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-white">{t.name}</p>
-                      <p className="mt-1 text-xs text-zinc-500">Slug: {t.slug}</p>
+                      <p className="font-semibold text-foreground">{t.name}</p>
+                      <p className="mt-1 text-xs text-muted">Slug: {t.slug}</p>
                       {t.description ? (
-                        <p className="mt-2 text-sm leading-relaxed text-zinc-400 line-clamp-2">{t.description}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-muted line-clamp-2">{t.description}</p>
                       ) : null}
                     </div>
                   </div>
@@ -282,7 +284,7 @@ export function AdminDashboardClient(props: {
                         setTab("teams");
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[#3d3520] bg-[#1a1810] px-3 py-2 text-sm font-medium text-[#f5e6c8] transition hover:border-[#f5b642]/50 sm:flex-none"
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-brand/30 bg-card-soft px-3 py-2 text-sm font-medium text-foreground transition hover:border-brand/50 sm:flex-none"
                     >
                       <Pencil className="h-3.5 w-3.5" aria-hidden />
                       Edit
@@ -291,7 +293,7 @@ export function AdminDashboardClient(props: {
                       <input type="hidden" name="id" value={t.id} />
                       <button
                         type="submit"
-                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-900/40 bg-red-950/40 px-3 py-2 text-sm font-medium text-red-200 transition hover:bg-red-950/60"
+                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-500/20 dark:text-red-200"
                         onClick={(e) => {
                           if (!confirm("Are you sure? Deleting this team will also delete all its members!")) {
                             e.preventDefault();
@@ -307,20 +309,20 @@ export function AdminDashboardClient(props: {
               ))}
             </ul>
             {teams.length === 0 ? (
-              <p className="mt-6 text-sm text-zinc-500">No teams yet. Add one above.</p>
+              <p className="mt-6 text-sm text-muted">No teams yet. Add one above.</p>
             ) : null}
           </section>
         </div>
 
         {/* Members */}
         <div className={tab === "members" ? "block space-y-8" : "hidden"}>
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.35)] sm:p-8">
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 shadow-[0_24px_60px_var(--shadow)] sm:p-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-white sm:text-2xl">
+                <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                   {editingMember ? "Edit member" : "Add member"}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-400">
+                <p className="mt-1 text-sm text-muted">
                   {editingMember
                     ? "Update details below, then save."
                     : "Create a new member and assign them to a team."}
@@ -330,7 +332,7 @@ export function AdminDashboardClient(props: {
                 <button
                   type="button"
                   onClick={() => setEditingMember(null)}
-                  className="text-sm font-medium text-[#f5b642] hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   Cancel edit
                 </button>
@@ -421,7 +423,7 @@ export function AdminDashboardClient(props: {
                   name="image_file"
                   type="file"
                   accept="image/*"
-                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-[#1f1f1f] file:px-3 file:py-1.5 file:text-xs file:text-zinc-300")}
+                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-card-soft file:px-3 file:py-1.5 file:text-xs file:text-muted")}
                 />
               </div>
               <div className="space-y-2 sm:col-span-2">
@@ -453,7 +455,7 @@ export function AdminDashboardClient(props: {
               <div className="flex sm:col-span-2 lg:col-span-3">
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-[#f5b642] px-5 py-3 text-sm font-semibold text-[#17120a] transition hover:bg-[#f8c35b] focus:outline-none focus:ring-2 focus:ring-[#f5b642]/40 focus:ring-offset-2 focus:ring-offset-[#0f0f0f] sm:w-auto sm:min-w-[200px]"
+                  className="w-full rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:bg-brand-strong focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:min-w-[200px]"
                 >
                   {editingMember ? "Update member" : "Save member"}
                 </button>
@@ -462,19 +464,19 @@ export function AdminDashboardClient(props: {
           </section>
 
           {pendingMembers.length > 0 && (
-            <section className="rounded-3xl border border-yellow-900/30 bg-[#1a1400] p-6 sm:p-8">
-              <h3 className="text-lg font-semibold text-[#f5b642]">Pending Approvals</h3>
-              <p className="mt-1 text-sm text-[#f5b642]/70">{pendingMembers.length} member(s) awaiting approval.</p>
+            <section className="rounded-3xl border border-brand/30 bg-brand/5 p-6 sm:p-8">
+              <h3 className="text-lg font-semibold text-brand">Pending Approvals</h3>
+              <p className="mt-1 text-sm text-brand/80">{pendingMembers.length} member(s) awaiting approval.</p>
               <ul className="mt-6 space-y-4">
                 {pendingMembers.map((member) => {
                   const teamName = teamById.get(member.team_id)?.name ?? "—";
                   return (
                     <li
                       key={member.id}
-                      className="flex flex-col gap-4 rounded-2xl border border-yellow-900/50 bg-[#120e00] p-4 sm:flex-row sm:items-stretch sm:justify-between"
+                      className="flex flex-col gap-4 rounded-2xl border border-brand/30 bg-card-soft p-4 sm:flex-row sm:items-stretch sm:justify-between"
                     >
                       <div className="flex min-w-0 flex-1 gap-4">
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-yellow-900/50 bg-[#1a1814]">
+                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-brand/20 bg-card">
                           {member.image_url ? (
                             <img
                               src={member.image_url}
@@ -482,19 +484,19 @@ export function AdminDashboardClient(props: {
                               className="h-full w-full object-cover opacity-75 grayscale hover:grayscale-0 transition-all"
                             />
                           ) : (
-                            <div className="flex h-full w-full items-center justify-center text-xs text-zinc-600">
+                            <div className="flex h-full w-full items-center justify-center text-xs text-muted">
                               No img
                             </div>
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold text-[#f5e6c8]">{member.name}</p>
-                          <p className="mt-1 text-sm text-[#f5b642]/90">
+                          <p className="font-semibold text-foreground">{member.name}</p>
+                          <p className="mt-1 text-sm text-brand/90">
                             {member.role}
-                            <span className="text-zinc-500"> · </span>
-                            <span className="text-zinc-400">{member.position}</span>
+                            <span className="text-muted"> · </span>
+                            <span className="text-muted">{member.position}</span>
                           </p>
-                          <p className="mt-1 text-xs text-yellow-600/70">Team: {teamName}</p>
+                          <p className="mt-1 text-xs text-brand/80">Team: {teamName}</p>
                           {member.linkedin_url ? (
                             <p className="mt-2 text-sm leading-relaxed text-blue-400/80 hover:underline">
                               <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
@@ -507,7 +509,7 @@ export function AdminDashboardClient(props: {
                           <input type="hidden" name="id" value={member.id} />
                           <button
                             type="submit"
-                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-green-900/40 bg-green-950/40 px-3 py-2 text-sm font-medium text-green-200 transition hover:bg-green-950/60"
+                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-green-500/40 bg-green-500/10 px-3 py-2 text-sm font-medium text-green-700 transition hover:bg-green-500/20 dark:text-green-200"
                           >
                             <CheckCircle className="h-3.5 w-3.5" aria-hidden />
                             Approve
@@ -517,7 +519,7 @@ export function AdminDashboardClient(props: {
                           <input type="hidden" name="id" value={member.id} />
                           <button
                             type="submit"
-                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-900/40 bg-red-950/40 px-3 py-2 text-sm font-medium text-red-200 transition hover:bg-red-950/60"
+                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-500/20 dark:text-red-200"
                           >
                             <Trash2 className="h-3.5 w-3.5" aria-hidden />
                             Reject
@@ -531,19 +533,19 @@ export function AdminDashboardClient(props: {
             </section>
           )}
 
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
-            <h3 className="text-lg font-semibold text-white">Active members</h3>
-            <p className="mt-1 text-sm text-zinc-400">{activeMembers.length} total</p>
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
+            <h3 className="text-lg font-semibold text-foreground">Active members</h3>
+            <p className="mt-1 text-sm text-muted">{activeMembers.length} total</p>
             <ul className="mt-6 space-y-4">
               {activeMembers.map((member) => {
                 const teamName = teamById.get(member.team_id)?.name ?? "—";
                 return (
                   <li
                     key={member.id}
-                    className="flex flex-col gap-4 rounded-2xl border border-[#2f2f2f] bg-[#141414] p-4 sm:flex-row sm:items-stretch sm:justify-between"
+                    className="flex flex-col gap-4 rounded-2xl border border-[color:var(--border)] bg-card-soft p-4 sm:flex-row sm:items-stretch sm:justify-between"
                   >
                     <div className="flex min-w-0 flex-1 gap-4">
-                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#3d3520] bg-[#1a1814]">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-brand/20 bg-card">
                         {member.image_url ? (
                           <img
                             src={member.image_url}
@@ -551,19 +553,19 @@ export function AdminDashboardClient(props: {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xs text-zinc-600">
+                          <div className="flex h-full w-full items-center justify-center text-xs text-muted">
                             No img
                           </div>
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-semibold text-white">{member.name}</p>
-                        <p className="mt-1 text-sm text-[#f5b642]/90">
+                        <p className="font-semibold text-foreground">{member.name}</p>
+                        <p className="mt-1 text-sm text-brand/90">
                           {member.role}
-                          <span className="text-zinc-500"> · </span>
-                          <span className="text-zinc-400">{member.position}</span>
+                          <span className="text-muted"> · </span>
+                          <span className="text-muted">{member.position}</span>
                         </p>
-                        <p className="mt-1 text-xs text-zinc-500">Team: {teamName}</p>
+                        <p className="mt-1 text-xs text-muted">Team: {teamName}</p>
                         {member.linkedin_url ? (
                           <p className="mt-2 text-sm leading-relaxed text-blue-400 hover:underline">
                             <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
@@ -579,7 +581,7 @@ export function AdminDashboardClient(props: {
                           setTab("members");
                           window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
-                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[#3d3520] bg-[#1a1810] px-3 py-2 text-sm font-medium text-[#f5e6c8] transition hover:border-[#f5b642]/50 sm:flex-none"
+                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-brand/30 bg-card-soft px-3 py-2 text-sm font-medium text-foreground transition hover:border-brand/50 sm:flex-none"
                       >
                         <Pencil className="h-3.5 w-3.5" aria-hidden />
                         Edit
@@ -588,7 +590,7 @@ export function AdminDashboardClient(props: {
                         <input type="hidden" name="id" value={member.id} />
                         <button
                           type="submit"
-                          className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-900/40 bg-red-950/40 px-3 py-2 text-sm font-medium text-red-200 transition hover:bg-red-950/60"
+                          className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-500/20 dark:text-red-200"
                         >
                           <Trash2 className="h-3.5 w-3.5" aria-hidden />
                           Delete
@@ -600,20 +602,20 @@ export function AdminDashboardClient(props: {
               })}
             </ul>
             {activeMembers.length === 0 ? (
-              <p className="mt-6 text-sm text-zinc-500">No active members yet. Add or approve one above.</p>
+              <p className="mt-6 text-sm text-muted">No active members yet. Add or approve one above.</p>
             ) : null}
           </section>
         </div>
 
         {/* Events */}
         <div className={tab === "events" ? "block space-y-8" : "hidden"}>
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-white sm:text-2xl">
+                <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                   {editingEvent ? "Edit event" : "Add event"}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-400">
+                <p className="mt-1 text-sm text-muted">
                   {editingEvent ? "Update the event, then save." : "Create a new club event."}
                 </p>
               </div>
@@ -621,7 +623,7 @@ export function AdminDashboardClient(props: {
                 <button
                   type="button"
                   onClick={() => setEditingEvent(null)}
-                  className="text-sm font-medium text-[#f5b642] hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   Cancel edit
                 </button>
@@ -717,7 +719,7 @@ export function AdminDashboardClient(props: {
                   name="image_file"
                   type="file"
                   accept="image/*"
-                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-[#1f1f1f] file:px-3 file:py-1.5 file:text-xs file:text-zinc-300")}
+                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-card-soft file:px-3 file:py-1.5 file:text-xs file:text-muted")}
                 />
               </div>
               <div className="space-y-2 sm:col-span-2">
@@ -734,7 +736,7 @@ export function AdminDashboardClient(props: {
               <div className="flex sm:col-span-2 lg:col-span-3">
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-[#f5b642] px-5 py-3 text-sm font-semibold text-[#17120a] transition hover:bg-[#f8c35b] focus:outline-none focus:ring-2 focus:ring-[#f5b642]/40 focus:ring-offset-2 focus:ring-offset-[#0f0f0f] sm:w-auto sm:min-w-[200px]"
+                  className="w-full rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:bg-brand-strong focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:min-w-[200px]"
                 >
                   {editingEvent ? "Update event" : "Save event"}
                 </button>
@@ -742,23 +744,23 @@ export function AdminDashboardClient(props: {
             </form>
           </section>
 
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
-            <h3 className="text-lg font-semibold text-white">Existing events</h3>
-            <p className="mt-1 text-sm text-zinc-400">{events.length} total</p>
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
+            <h3 className="text-lg font-semibold text-foreground">Existing events</h3>
+            <p className="mt-1 text-sm text-muted">{events.length} total</p>
             <ul className="mt-6 space-y-4">
               {events.map((event) => (
                 <li
                   key={event.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-[#2f2f2f] bg-[#141414] p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex flex-col gap-4 rounded-2xl border border-[color:var(--border)] bg-card-soft p-4 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-white">{event.title}</p>
-                    <p className="mt-1 text-sm text-zinc-400">{event.venue}</p>
-                    <p className="mt-1 text-xs text-zinc-500">
+                    <p className="font-semibold text-foreground">{event.title}</p>
+                    <p className="mt-1 text-sm text-muted">{event.venue}</p>
+                    <p className="mt-1 text-xs text-muted">
                       {new Date(event.event_date).toLocaleString()} ·{" "}
-                      <span className="text-[#f5b642]/80">{event.status}</span>
+                      <span className="text-brand/80">{event.status}</span>
                     </p>
-                    <p className="mt-2 line-clamp-2 text-sm text-zinc-500">{event.description}</p>
+                    <p className="mt-2 line-clamp-2 text-sm text-muted">{event.description}</p>
                   </div>
                   <div className="flex shrink-0 gap-2">
                     <button
@@ -768,7 +770,7 @@ export function AdminDashboardClient(props: {
                         setTab("events");
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#3d3520] bg-[#1a1810] px-3 py-2 text-sm font-medium text-[#f5e6c8]"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-brand/30 bg-card-soft px-3 py-2 text-sm font-medium text-foreground"
                     >
                       <Pencil className="h-3.5 w-3.5" aria-hidden />
                       Edit
@@ -777,7 +779,7 @@ export function AdminDashboardClient(props: {
                       <input type="hidden" name="id" value={event.id} />
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-900/40 bg-red-950/40 px-3 py-2 text-sm font-medium text-red-200"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-700 dark:text-red-200"
                       >
                         <Trash2 className="h-3.5 w-3.5" aria-hidden />
                         Delete
@@ -788,20 +790,20 @@ export function AdminDashboardClient(props: {
               ))}
             </ul>
             {events.length === 0 ? (
-              <p className="mt-6 text-sm text-zinc-500">No events yet.</p>
+              <p className="mt-6 text-sm text-muted">No events yet.</p>
             ) : null}
           </section>
         </div>
 
         {/* Projects */}
         <div className={tab === "projects" ? "block space-y-8" : "hidden"}>
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-white sm:text-2xl">
+                <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                   {editingProject ? "Edit project" : "Add project"}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-400">
+                <p className="mt-1 text-sm text-muted">
                   {editingProject ? "Update project details below." : "Add a new showcased project."}
                 </p>
               </div>
@@ -809,7 +811,7 @@ export function AdminDashboardClient(props: {
                 <button
                   type="button"
                   onClick={() => setEditingProject(null)}
-                  className="text-sm font-medium text-[#f5b642] hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   Cancel edit
                 </button>
@@ -837,7 +839,7 @@ export function AdminDashboardClient(props: {
                 <label className={labelClass()} htmlFor="p-short">
                   Short description
                 </label>
-                <p className="text-xs text-zinc-500">10–240 characters (required).</p>
+                <p className="text-xs text-muted">10–240 characters (required).</p>
                 <textarea
                   id="p-short"
                   name="short_description"
@@ -868,7 +870,7 @@ export function AdminDashboardClient(props: {
                   name="image_file"
                   type="file"
                   accept="image/*"
-                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-[#1f1f1f] file:px-3 file:py-1.5 file:text-xs file:text-zinc-300")}
+                  className={fieldClass("file:mr-3 file:rounded-lg file:border-0 file:bg-card-soft file:px-3 file:py-1.5 file:text-xs file:text-muted")}
                 />
               </div>
               <div className="space-y-2">
@@ -907,7 +909,7 @@ export function AdminDashboardClient(props: {
               <div className="flex sm:col-span-2 lg:col-span-3">
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-[#f5b642] px-5 py-3 text-sm font-semibold text-[#17120a] transition hover:bg-[#f8c35b] focus:outline-none focus:ring-2 focus:ring-[#f5b642]/40 focus:ring-offset-2 focus:ring-offset-[#0f0f0f] sm:w-auto sm:min-w-[200px]"
+                  className="w-full rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:bg-brand-strong focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:min-w-[200px]"
                 >
                   {editingProject ? "Update project" : "Save project"}
                 </button>
@@ -915,18 +917,18 @@ export function AdminDashboardClient(props: {
             </form>
           </section>
 
-          <section className="rounded-3xl border border-[#272727] bg-[#0f0f0f] p-6 sm:p-8">
-            <h3 className="text-lg font-semibold text-white">Existing projects</h3>
-            <p className="mt-1 text-sm text-zinc-400">{projects.length} total</p>
+          <section className="rounded-3xl border border-[color:var(--border)] bg-card p-6 sm:p-8">
+            <h3 className="text-lg font-semibold text-foreground">Existing projects</h3>
+            <p className="mt-1 text-sm text-muted">{projects.length} total</p>
             <ul className="mt-6 space-y-4">
               {projects.map((project) => (
                 <li
                   key={project.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-[#2f2f2f] bg-[#141414] p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex flex-col gap-4 rounded-2xl border border-[color:var(--border)] bg-card-soft p-4 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-white">{project.title}</p>
-                    <p className="mt-2 line-clamp-2 text-sm text-zinc-400">{project.short_description}</p>
+                    <p className="font-semibold text-foreground">{project.title}</p>
+                    <p className="mt-2 line-clamp-2 text-sm text-muted">{project.short_description}</p>
                   </div>
                   <div className="flex shrink-0 gap-2">
                     <button
@@ -936,7 +938,7 @@ export function AdminDashboardClient(props: {
                         setTab("projects");
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#3d3520] bg-[#1a1810] px-3 py-2 text-sm font-medium text-[#f5e6c8]"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-brand/30 bg-card-soft px-3 py-2 text-sm font-medium text-foreground"
                     >
                       <Pencil className="h-3.5 w-3.5" aria-hidden />
                       Edit
@@ -945,7 +947,7 @@ export function AdminDashboardClient(props: {
                       <input type="hidden" name="id" value={project.id} />
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-900/40 bg-red-950/40 px-3 py-2 text-sm font-medium text-red-200"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-700 dark:text-red-200"
                       >
                         <Trash2 className="h-3.5 w-3.5" aria-hidden />
                         Delete
@@ -956,7 +958,7 @@ export function AdminDashboardClient(props: {
               ))}
             </ul>
             {projects.length === 0 ? (
-              <p className="mt-6 text-sm text-zinc-500">No projects yet.</p>
+              <p className="mt-6 text-sm text-muted">No projects yet.</p>
             ) : null}
           </section>
         </div>
