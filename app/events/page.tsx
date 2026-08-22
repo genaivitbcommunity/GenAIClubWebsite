@@ -1,30 +1,41 @@
 import { EventGrid } from "@/components/site/event-grid";
 import { Footer } from "@/components/site/footer";
 import { Navbar } from "@/components/site/navbar";
-import { getEvents } from "@/lib/data/public";
 
-export const revalidate = 0;
+const testEvents = [
+  {
+    id: "master-prompter",
+    title: "Master Prompter",
+    description:
+      "AI Prompt Engineering Challenge. Put your prompting skills to the test and solve real-world challenges with AI.",
+    venue: "VIT Bhopal",
+    event_date: "2026-08-22T10:41:00",
+    status: "live" as const,
+    image_url: null,
+    register_url: "#",
+  },
+  {
+    id: "gen-ai-hackathon",
+    title: "Gen AI Hackathon",
+    description:
+      "48 hours of building, collaborating and innovating with AI.",
+    venue: "VIT Bhopal",
+    event_date: "2026-10-01T10:00:00",
+    status: "upcoming" as const,
+    image_url: null,
+    register_url: null,
+  },
+];
 
-export default async function EventsPage() {
-  const events = await getEvents();
-
+export default function EventsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#080808] py-14">
-        <section className="container-wrap">
-          <h1 className="text-4xl font-bold text-[#f5b642] sm:text-5xl">Events</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-            Discover upcoming and live sessions from our club. Events created or edited from
-            the admin dashboard appear here automatically.
-          </p>
-        </section>
-        <div className="mt-8">
-          <section className="container-wrap">
-            <EventGrid events={events} />
-          </section>
-        </div>
+
+      <main className="min-h-screen bg-black">
+        <EventGrid events={testEvents} />
       </main>
+
       <Footer />
     </>
   );
